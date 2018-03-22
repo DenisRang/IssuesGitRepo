@@ -1,5 +1,8 @@
 <resources>
-    <string name="app_name">IssuesOfGitRepository</string>
+    <string name="app_name">Issues in RxJava</string>
 
     <string name="issue_created_at">Created at:</string>
+
+    <string name="state_open">Open</string>
+    <string name="state_closed">Closed</string>
 </resources>

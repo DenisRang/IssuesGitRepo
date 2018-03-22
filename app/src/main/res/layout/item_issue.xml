@@ -2,7 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:padding="16dp">
 
 
@@ -37,14 +37,14 @@
                 android:layout_height="wrap_content"
                 android:text="@string/issue_created_at"
                 android:textColor="@color/textColorCreatedAt"
-                android:textSize="10sp" />
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/text_created_at"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/textColorCreatedAt"
-                android:textSize="10sp"
+                android:textSize="12sp"
                 tools:text="17.08.2018\n23:56" />
 
         </LinearLayout>

@@ -4,6 +4,7 @@ package com.sansara.develop.issuesofgitrepository;
  * Created by den on 21.03.2018.
  */
 
+
 import android.content.AsyncTaskLoader;
 import android.content.Context;
 import android.widget.Toast;
@@ -35,19 +36,14 @@ public class IssuesLoader extends AsyncTaskLoader<List<Issue>> {
 
     @Override
     public List<Issue> loadInBackground() {
-        final List<Issue> list=new ArrayList<Issue>();      //TODO try null instead ArrayList
-        App.getGithabApi().getIssues(mOwner, mRepository, mState).enqueue(new Callback<List<Issue>>() {
-            @Override
-            public void onResponse(Call<List<Issue>> call, Response<List<Issue>> response) {
-                list.addAll(response.body());
-            }
-
-            @Override
-            public void onFailure(Call<List<Issue>> call, Throwable t) {
-                Toast.makeText(getContext(), "An error occurred during networking", Toast.LENGTH_SHORT).show();
-            }
-
-        });
+        List<Issue> list = null;
+        try {
+            Response<List<Issue>> response = App.getGithabApi().getIssues(mOwner, mRepository, mState).execute();
+            list = response.body();
+        } catch (IOException e) {
+            Toast.makeText(getContext(), "An error occurred during networking", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
         return list;
     }
 }
