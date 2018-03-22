@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">IssuesOfGitRepository</string>
+
+    <string name="issue_created_at">Created at:</string>
+</resources>

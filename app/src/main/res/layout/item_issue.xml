@@ -1,0 +1,63 @@
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/constraint_layout_issue_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/text_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/textColorTitle"
+            android:textSize="18sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/linear_layout_created_at"
+            app:layout_constraintWidth_default="spread"
+            tools:text="2.x: Performance improvements dsfsd (tracking issue)" />
+
+        <LinearLayout
+            android:id="@+id/linear_layout_created_at"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:orientation="vertical"
+            app:layout_constraintLeft_toRightOf="@id/text_title"
+            app:layout_constraintRight_toRightOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/issue_created_at"
+                android:textColor="@color/textColorCreatedAt"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/text_created_at"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/textColorCreatedAt"
+                android:textSize="10sp"
+                tools:text="17.08.2018\n23:56" />
+
+        </LinearLayout>
+    </android.support.constraint.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/text_body"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/textColorBody"
+        android:textSize="14sp"
+        app:layout_constraintTop_toBottomOf="@id/constraint_layout_issue_top"
+        tools:text="I assembled a fresh evaluation of RxJava 1, 2 and Reactor 3.2 performance under various usages and found the following deficiencies in RxJava 2." />
+</android.support.constraint.ConstraintLayout>
