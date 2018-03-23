@@ -50,7 +50,7 @@ public class IssuesAdapter extends RecyclerView.Adapter<IssuesAdapter.ViewHolder
         holder.createdAt = getFormattedDate(issue.getCreatedAt());
 
         holder.textViewTitle.setText(holder.title);
-        holder.textViewCreatedAt.setText(holder.createdAt);
+        holder.textViewCreatedAt.append(holder.createdAt);
         holder.textViewBody.setText(holder.body);
     }
 
@@ -81,11 +81,11 @@ public class IssuesAdapter extends RecyclerView.Adapter<IssuesAdapter.ViewHolder
         User user;
         List<Label> labels;
 
-        @BindView(R.id.text_title)
+        @BindView(R.id.text_title_item)
         TextView textViewTitle;
-        @BindView(R.id.text_created_at)
+        @BindView(R.id.text_created_at_item)
         TextView textViewCreatedAt;
-        @BindView(R.id.text_body)
+        @BindView(R.id.text_body_item)
         TextView textViewBody;
 
 

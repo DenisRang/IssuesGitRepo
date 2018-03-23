@@ -78,9 +78,6 @@ public class IssuesFragment extends Fragment implements LoaderManager.LoaderCall
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getActivity(),
-                layoutManager.getOrientation());
-        mRecyclerView.addItemDecoration(dividerItemDecoration);
         mIssuesAdapter = new IssuesAdapter(mIssues);
         mRecyclerView.setAdapter(mIssuesAdapter);
 

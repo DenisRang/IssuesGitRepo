@@ -1,7 +1,10 @@
 <resources>
     <string name="app_name">Issues in RxJava</string>
 
-    <string name="issue_created_at">Created at:</string>
+    <string name="issue_created_at">Created at\n</string>
+    <string name="issue_labels">Labels</string>
+    <string name="issue_creator_login">Creator login:</string>
+    <string name="issue_comments">Comments</string>
 
     <string name="state_open">Open</string>
     <string name="state_closed">Closed</string>
