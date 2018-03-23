@@ -1,11 +1,16 @@
 package com.sansara.develop.issuesofgitrepository;
 
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v13.app.FragmentStatePagerAdapter;
+
+import butterknife.BindString;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 
 /**
@@ -15,13 +20,15 @@ import android.support.v13.app.FragmentStatePagerAdapter;
 public class ViewPagerAdapter extends FragmentPagerAdapter {
     private final int COUNT_STATES_OF_ISSUE = 2;
 
+    @BindString(R.string.state_open)
+    String stateOpen;
+    @BindString(R.string.state_closed)
+    String stateClosed;
 
-    private Context mContext;
 
-
-    public ViewPagerAdapter(Context context, FragmentManager fm) {
+    public ViewPagerAdapter(Activity activity, FragmentManager fm) {
         super(fm);
-        mContext = context;
+        ButterKnife.bind(this, activity);
     }
 
     @Override
@@ -39,9 +46,9 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         switch (position) {
             case 0:
-                return mContext.getString(R.string.state_open);
+                return stateOpen;
             case 1:
-                return mContext.getString(R.string.state_closed);
+                return stateClosed;
         }
         return null;
     }

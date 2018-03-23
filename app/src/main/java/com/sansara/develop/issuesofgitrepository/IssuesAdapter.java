@@ -11,8 +11,14 @@ import android.widget.TextView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Created by den on 21.03.2018.
@@ -22,8 +28,6 @@ public class IssuesAdapter extends RecyclerView.Adapter<IssuesAdapter.ViewHolder
     private static final String LOG_TAG = IssuesAdapter.class.getSimpleName();
 
     private List<Issue> mIssues;
-    private SimpleDateFormat mInFormat = new SimpleDateFormat("YYYY-MM-DD'T'HH:MM:SS'Z'", Locale.US);
-    private SimpleDateFormat mOutFormat = new SimpleDateFormat("DD.MM.YYYY'\n'HH:MM", Locale.US);
 
     public IssuesAdapter(List<Issue> issues) {
         mIssues = issues;
@@ -43,12 +47,7 @@ public class IssuesAdapter extends RecyclerView.Adapter<IssuesAdapter.ViewHolder
         holder.title = issue.getTitle();
         holder.state = issue.getState();
         holder.body = issue.getBody();
-        try {
-            holder.createdAt = mOutFormat.format(mInFormat.parse(issue.getCreatedAt()));
-        } catch (ParseException e) {
-            Log.e(LOG_TAG, "Error with parsing date");
-            e.printStackTrace();
-        }
+        holder.createdAt = getFormattedDate(issue.getCreatedAt());
 
         holder.textViewTitle.setText(holder.title);
         holder.textViewCreatedAt.setText(holder.createdAt);
@@ -62,17 +61,46 @@ public class IssuesAdapter extends RecyclerView.Adapter<IssuesAdapter.ViewHolder
         return mIssues.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    private String getFormattedDate(String inDateString) {
+        String outDateString = null;
+        try {
+            SimpleDateFormat inFormat = new SimpleDateFormat("y-MM-dd'T'HH:mm:ss'Z'", Locale.US);
+            SimpleDateFormat outFormat = new SimpleDateFormat("dd.MM.y'\n'HH:mm", Locale.US);
+
+            Date outDate = inFormat.parse(inDateString);
+            outDateString = outFormat.format(outDate);
+        } catch (ParseException e) {
+            Log.e(LOG_TAG, "Error with parsing date");
+            e.printStackTrace();
+        }
+        return outDateString;
+    }
+
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         String commentsUrl, title, state, body, createdAt;
         User user;
         List<Label> labels;
-        TextView textViewTitle, textViewCreatedAt, textViewBody;
+
+        @BindView(R.id.text_title)
+        TextView textViewTitle;
+        @BindView(R.id.text_created_at)
+        TextView textViewCreatedAt;
+        @BindView(R.id.text_body)
+        TextView textViewBody;
+
 
         public ViewHolder(View itemView) {
             super(itemView);
-            textViewTitle = (TextView) itemView.findViewById(R.id.text_title);
-            textViewCreatedAt = (TextView) itemView.findViewById(R.id.text_created_at);
-            textViewBody = (TextView) itemView.findViewById(R.id.text_body);
+            ButterKnife.bind(this, itemView);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            int position = getAdapterPosition();
+            if (position != RecyclerView.NO_POSITION) {
+                //TODO
+            }
         }
     }
 }
