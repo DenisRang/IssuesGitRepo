@@ -11,4 +11,5 @@
 
     <string name="msg_no_internet">No internet connection.</string>
     <string name="msg_no_issues">No issues found.</string>
+    <string name="msg_no_labels">No labels found.</string>
 </resources>

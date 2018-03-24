@@ -1,5 +1,8 @@
 package com.sansara.develop.issuesofgitrepository;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -25,11 +28,13 @@ import butterknife.ButterKnife;
  */
 
 public class IssuesAdapter extends RecyclerView.Adapter<IssuesAdapter.ViewHolder> {
-    private static final String LOG_TAG = IssuesAdapter.class.getSimpleName();
+    public static final String EXTRA_ISSUE_PARCELABLE = "EXTRA_ISSUE_PARCELABLE";
 
     private List<Issue> mIssues;
+    private Activity mActivity;
 
-    public IssuesAdapter(List<Issue> issues) {
+    public IssuesAdapter(Activity activity, List<Issue> issues) {
+        mActivity = activity;
         mIssues = issues;
     }
 
@@ -43,15 +48,9 @@ public class IssuesAdapter extends RecyclerView.Adapter<IssuesAdapter.ViewHolder
     public void onBindViewHolder(ViewHolder holder, int position) {
         Issue issue = mIssues.get(position);
 
-        holder.commentsUrl = issue.getCommentsUrl();
-        holder.title = issue.getTitle();
-        holder.state = issue.getState();
-        holder.body = issue.getBody();
-        holder.createdAt = getFormattedDate(issue.getCreatedAt());
-
-        holder.textViewTitle.setText(holder.title);
-        holder.textViewCreatedAt.append(holder.createdAt);
-        holder.textViewBody.setText(holder.body);
+        holder.textViewTitle.setText(issue.getTitle());
+        holder.textViewCreatedAt.append(issue.getFormattedDateCreatedAt());
+        holder.textViewBody.setText(issue.getBody());
     }
 
     @Override
@@ -61,25 +60,9 @@ public class IssuesAdapter extends RecyclerView.Adapter<IssuesAdapter.ViewHolder
         return mIssues.size();
     }
 
-    private String getFormattedDate(String inDateString) {
-        String outDateString = null;
-        try {
-            SimpleDateFormat inFormat = new SimpleDateFormat("y-MM-dd'T'HH:mm:ss'Z'", Locale.US);
-            SimpleDateFormat outFormat = new SimpleDateFormat("dd.MM.y'\n'HH:mm", Locale.US);
 
-            Date outDate = inFormat.parse(inDateString);
-            outDateString = outFormat.format(outDate);
-        } catch (ParseException e) {
-            Log.e(LOG_TAG, "Error with parsing date");
-            e.printStackTrace();
-        }
-        return outDateString;
-    }
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        String commentsUrl, title, state, body, createdAt;
-        User user;
-        List<Label> labels;
 
         @BindView(R.id.text_title_item)
         TextView textViewTitle;
@@ -99,7 +82,9 @@ public class IssuesAdapter extends RecyclerView.Adapter<IssuesAdapter.ViewHolder
         public void onClick(View v) {
             int position = getAdapterPosition();
             if (position != RecyclerView.NO_POSITION) {
-                //TODO
+                Intent intent = new Intent(mActivity, DetailedIssueActivity.class);
+                intent.putExtra(EXTRA_ISSUE_PARCELABLE, mIssues.get(position));
+                mActivity.startActivity(intent);
             }
         }
     }

@@ -78,7 +78,7 @@ public class IssuesFragment extends Fragment implements LoaderManager.LoaderCall
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
-        mIssuesAdapter = new IssuesAdapter(mIssues);
+        mIssuesAdapter = new IssuesAdapter(getActivity(),mIssues);
         mRecyclerView.setAdapter(mIssuesAdapter);
 
         ConnectivityManager cm = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
