@@ -32,8 +32,6 @@ import butterknife.Unbinder;
  */
 
 public class IssuesFragment extends Fragment implements LoaderManager.LoaderCallbacks<List<Issue>> {
-    public static final String RX_OWNER = "ReactiveX";
-    public static final String RX_REPOSITORY = "RxJava";
     public static final String RX_QUERY_STATE_OPEN = "open";
     public static final String RX_QUERY_STATE_CLOSED = "closed";
 
@@ -107,9 +105,9 @@ public class IssuesFragment extends Fragment implements LoaderManager.LoaderCall
     public Loader<List<Issue>> onCreateLoader(int i, Bundle bundle) {
         switch (i) {
             case OPEN_ISSUES_LOADER_ID:
-                return new IssuesLoader(getActivity(), RX_OWNER, RX_REPOSITORY, RX_QUERY_STATE_OPEN);
+                return new IssuesLoader(getActivity(), RX_QUERY_STATE_OPEN);
             case CLOSED_ISSUES_LOADER_ID:
-                return new IssuesLoader(getActivity(), RX_OWNER, RX_REPOSITORY, RX_QUERY_STATE_CLOSED);
+                return new IssuesLoader(getActivity(), RX_QUERY_STATE_CLOSED);
         }
         return null;
     }

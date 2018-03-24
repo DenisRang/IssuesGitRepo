@@ -4,7 +4,7 @@
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#000000</color>
 
-    <color name="textColorTitle">#474a4d</color>
-    <color name="textColorCreatedAt">#B4BAC0</color>
-    <color name="textColorBody">#797e83</color>
+    <color name="textColorDark">#474a4d</color>
+    <color name="textColorUsual">#797e83</color>
+    <color name="textColorLight">#B4BAC0</color>
 </resources>

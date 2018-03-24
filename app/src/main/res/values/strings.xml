@@ -1,9 +1,11 @@
 <resources>
     <string name="app_name">Issues in RxJava</string>
 
-    <string name="issue_created_at">Created at\n</string>
+    <string name="title_detail">Detailed issue  #</string>
+
+    <string name="issue_created_at">Created at</string>
     <string name="issue_labels">Labels</string>
-    <string name="issue_creator_login">Creator login:</string>
+    <string name="issue_creator">Creator</string>
     <string name="issue_comments">Comments</string>
 
     <string name="state_open">Open</string>
@@ -12,4 +14,7 @@
     <string name="msg_no_internet">No internet connection.</string>
     <string name="msg_no_issues">No issues found.</string>
     <string name="msg_no_labels">No labels found.</string>
+
+    <string name="error_loading_issues">An error occurred during loading issues from internet</string>
+    <string name="error_loading_comments">An error occurred during loading comments from internet</string>
 </resources>

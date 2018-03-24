@@ -22,9 +22,9 @@ import java.util.Locale;
 public class Issue implements Parcelable {
     private static final String LOG_TAG = Issue.class.getSimpleName();
 
-    @SerializedName("comments_url")
+    @SerializedName("number")
     @Expose
-    private String commentsUrl;
+    private Integer number;
     @SerializedName("title")
     @Expose
     private String title;
@@ -44,12 +44,12 @@ public class Issue implements Parcelable {
     @Expose
     private String body;
 
-    public String getCommentsUrl() {
-        return commentsUrl;
+    public Integer getNumber() {
+        return number;
     }
 
-    public void setCommentsUrl(String commentsUrl) {
-        this.commentsUrl = commentsUrl;
+    public void setNumber(Integer number) {
+        this.number = number;
     }
 
     public String getTitle() {
@@ -121,7 +121,7 @@ public class Issue implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel out, int flags) {
-        out.writeString(commentsUrl);
+        out.writeInt(number);
         out.writeString(title);
         out.writeString(state);
         out.writeString(createdAt);
@@ -134,7 +134,7 @@ public class Issue implements Parcelable {
 
     private Issue(Parcel in) {
         this();
-        commentsUrl = in.readString();
+        number = in.readInt();
         title = in.readString();
         state = in.readString();
         createdAt = in.readString();
@@ -290,5 +290,32 @@ class User implements Parcelable {
             return new User[size];
         }
     };
+
+}
+
+class Comment {
+    @SerializedName("user")
+    @Expose
+    private User user;
+    @SerializedName("body")
+    @Expose
+    private String body;
+
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public String getBody() {
+        return body;
+    }
+
+    public void setBody(String body) {
+        this.body = body;
+    }
 
 }

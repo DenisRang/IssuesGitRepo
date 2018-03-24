@@ -37,7 +37,10 @@ public class App extends Application {
     }
 
     public interface GithubApi {
-        @GET("/repos/{owner}/{repo}/issues")
-        Call<List<Issue>> getIssues(@Path("owner") String owner, @Path("repo") String repo, @Query("state") String state);
+        @GET("/repos/ReactiveX/RxJava/issues")
+        Call<List<Issue>> getIssues(@Query("state") String state);
+
+        @GET("/repos/ReactiveX/RxJava/issues/{number}/comments")
+        Call<List<Comment>> getComments(@Path("number") Integer number);
     }
 }

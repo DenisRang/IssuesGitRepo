@@ -17,8 +17,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:background="?android:attr/selectableItemBackground"
+            android:orientation="vertical"
             android:padding="8dp">
 
 
@@ -28,37 +28,48 @@
 
                 <TextView
                     android:id="@+id/text_title_item"
+                    style="@style/TextHeader"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/textColorTitle"
-                    android:textSize="18sp"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toLeftOf="@id/text_created_at_item"
+                    app:layout_constraintRight_toLeftOf="@id/linear_layout_created_at_item"
                     app:layout_constraintWidth_default="spread"
                     tools:text="2.x: Performance improvements dsfsd (tracking issue)" />
 
-                <TextView
-                    android:id="@+id/text_created_at_item"
+                <LinearLayout
+                    android:id="@+id/linear_layout_created_at_item"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
                     android:layout_marginStart="8dp"
-                    android:text="@string/issue_created_at"
-                    android:textColor="@color/textColorCreatedAt"
-                    android:textSize="12sp"
+                    android:orientation="vertical"
                     app:layout_constraintLeft_toRightOf="@id/text_title_item"
-                    app:layout_constraintRight_toRightOf="parent"
-                    tools:text="Created at\n17.08.2018\n23:56" />
+                    app:layout_constraintRight_toRightOf="parent">
+
+                    <TextView
+                        style="@style/TextLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/issue_created_at" />
+
+                    <TextView
+                        android:id="@+id/text_created_at_item"
+                        style="@style/TextLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="17.08.2018\n23:56" />
+
+                </LinearLayout>
+
 
             </android.support.constraint.ConstraintLayout>
 
             <TextView
                 android:id="@+id/text_body_item"
+                style="@style/TextUsual"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:textColor="@color/textColorBody"
-                android:textSize="14sp"
                 tools:text="I assembled a fresh evaluation of RxJava 1, 2 and Reactor 3.2 performance under various usages and found the following deficiencies in RxJava 2." />
         </LinearLayout>
     </android.support.v7.widget.CardView>

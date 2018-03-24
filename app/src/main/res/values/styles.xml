@@ -27,5 +27,20 @@
         <item name="android:textColor">#A8A19E</item>
     </style>
 
+    <style name="TextHeader">
+        <item name="android:textColor">@color/textColorDark</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="TextUsual">
+        <item name="android:textColor">@color/textColorUsual</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="TextLabel">
+        <item name="android:textColor">@color/textColorLight</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
 
 </resources>

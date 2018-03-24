@@ -49,7 +49,7 @@ public class IssuesAdapter extends RecyclerView.Adapter<IssuesAdapter.ViewHolder
         Issue issue = mIssues.get(position);
 
         holder.textViewTitle.setText(issue.getTitle());
-        holder.textViewCreatedAt.append(issue.getFormattedDateCreatedAt());
+        holder.textViewCreatedAt.setText(issue.getFormattedDateCreatedAt());
         holder.textViewBody.setText(issue.getBody());
     }
 
