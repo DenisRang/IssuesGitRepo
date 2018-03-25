@@ -1,24 +1,17 @@
-package com.sansara.develop.issuesofgitrepository;
+package com.sansara.develop.issuesofgitrepository.view;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
+import com.sansara.develop.issuesofgitrepository.R;
+import com.sansara.develop.issuesofgitrepository.data.Issue;
+
 import java.util.List;
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,14 +21,13 @@ import butterknife.ButterKnife;
  */
 
 public class IssuesAdapter extends RecyclerView.Adapter<IssuesAdapter.ViewHolder> {
-    public static final String EXTRA_ISSUE_PARCELABLE = "EXTRA_ISSUE_PARCELABLE";
 
     private List<Issue> mIssues;
-    private Activity mActivity;
+    private IssueClickListener mIssueClickListener;
 
-    public IssuesAdapter(Activity activity, List<Issue> issues) {
-        mActivity = activity;
+    public IssuesAdapter(List<Issue> issues, IssueClickListener issueClickListener) {
         mIssues = issues;
+        mIssueClickListener = issueClickListener;
     }
 
     @Override
@@ -61,7 +53,6 @@ public class IssuesAdapter extends RecyclerView.Adapter<IssuesAdapter.ViewHolder
     }
 
 
-
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         @BindView(R.id.text_title_item)
@@ -82,10 +73,12 @@ public class IssuesAdapter extends RecyclerView.Adapter<IssuesAdapter.ViewHolder
         public void onClick(View v) {
             int position = getAdapterPosition();
             if (position != RecyclerView.NO_POSITION) {
-                Intent intent = new Intent(mActivity, DetailedIssueActivity.class);
-                intent.putExtra(EXTRA_ISSUE_PARCELABLE, mIssues.get(position));
-                mActivity.startActivity(intent);
+                mIssueClickListener.onIssueClick(position);
             }
         }
+    }
+
+    public interface IssueClickListener {
+        void onIssueClick(int position);
     }
 }

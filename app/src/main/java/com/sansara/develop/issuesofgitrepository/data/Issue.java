@@ -1,9 +1,8 @@
 
-package com.sansara.develop.issuesofgitrepository;
+package com.sansara.develop.issuesofgitrepository.data;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.google.gson.annotations.Expose;
@@ -12,11 +11,8 @@ import com.google.gson.annotations.SerializedName;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Locale;
 
 public class Issue implements Parcelable {
@@ -169,153 +165,6 @@ public class Issue implements Parcelable {
     };
 }
 
-class Label implements Parcelable {
-
-    @SerializedName("name")
-    @Expose
-    private String name;
-    @SerializedName("color")
-    @Expose
-    private String color;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getColor() {
-        return color;
-    }
-
-    public String getFormattedColor() {
-        return "#" + color;
-    }
-
-    public void setColor(String color) {
-        this.color = color;
-    }
-
-    @Override
-    public void writeToParcel(Parcel out, int flags) {
-        out.writeString(name);
-        out.writeString(color);
-    }
-
-    private Label(Parcel in) {
-        name = in.readString();
-        color = in.readString();
-    }
-
-    private Label() {
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    public static final Parcelable.Creator<Label> CREATOR
-            = new Parcelable.Creator<Label>() {
-
-        @Override
-        public Label createFromParcel(Parcel in) {
-            return new Label(in);
-        }
-
-        @Override
-        public Label[] newArray(int size) {
-            return new Label[size];
-        }
-    };
-
-}
-
-class User implements Parcelable {
-
-    @SerializedName("login")
-    @Expose
-    private String login;
-    @SerializedName("avatar_url")
-    @Expose
-    private String avatarUrl;
-
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-    public String getAvatarUrl() {
-        return avatarUrl;
-    }
-
-    public void setAvatarUrl(String avatarUrl) {
-        this.avatarUrl = avatarUrl;
-    }
-
-    @Override
-    public void writeToParcel(Parcel out, int flags) {
-        out.writeString(login);
-        out.writeString(avatarUrl);
-    }
-
-    private User(Parcel in) {
-        login = in.readString();
-        avatarUrl = in.readString();
-    }
-
-    private User() {
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    public static final Parcelable.Creator<User> CREATOR
-            = new Parcelable.Creator<User>() {
-
-        @Override
-        public User createFromParcel(Parcel in) {
-            return new User(in);
-        }
-
-        @Override
-        public User[] newArray(int size) {
-            return new User[size];
-        }
-    };
-
-}
-
-class Comment {
-    @SerializedName("user")
-    @Expose
-    private User user;
-    @SerializedName("body")
-    @Expose
-    private String body;
 
 
-    public User getUser() {
-        return user;
-    }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public String getBody() {
-        return body;
-    }
-
-    public void setBody(String body) {
-        this.body = body;
-    }
-
-}

@@ -1,15 +1,15 @@
-package com.sansara.develop.issuesofgitrepository;
+package com.sansara.develop.issuesofgitrepository.view;
 
 
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.content.Context;
 import android.support.v13.app.FragmentPagerAdapter;
-import android.support.v13.app.FragmentStatePagerAdapter;
+
+import com.sansara.develop.issuesofgitrepository.R;
+import com.sansara.develop.issuesofgitrepository.model.IssuesModel;
 
 import butterknife.BindString;
-import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
@@ -35,9 +35,9 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return IssuesFragment.newInstance(IssuesFragment.RX_QUERY_STATE_OPEN);
+                return IssuesFragment.newInstance(IssuesModel.RX_QUERY_STATE_OPEN);
             case 1:
-                return IssuesFragment.newInstance(IssuesFragment.RX_QUERY_STATE_CLOSED);
+                return IssuesFragment.newInstance(IssuesModel.RX_QUERY_STATE_CLOSED);
         }
         return null;
     }
