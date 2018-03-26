@@ -20,9 +20,10 @@ import retrofit2.Response;
 public class CommentsLoader extends AsyncTaskLoader<List<Comment>> {
     Integer mNumber;
 
-    public CommentsLoader(Context context,Integer number) {
+
+    public CommentsLoader(Context context, Integer number) {
         super(context);
-        mNumber=number;
+        mNumber = number;
     }
 
     @Override
