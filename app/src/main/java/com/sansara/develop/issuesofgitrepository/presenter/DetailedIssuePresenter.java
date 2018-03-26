@@ -75,16 +75,6 @@ public class DetailedIssuePresenter {
         mModel.setAvatar(avatarUrl, imageViewAvatar);
     }
 
-    public TextView createTextViewLabel(Label label) {
-        TextView viewLabel = new TextView(mView);
-        viewLabel.setText(label.getName());
-        viewLabel.setLayoutParams(mView.getTextViewEmptyLabel().getLayoutParams());
-        int paggingLabel = mView.getResources().getDimensionPixelSize(R.dimen.label_pagging);
-        viewLabel.setPadding(paggingLabel, paggingLabel, paggingLabel, paggingLabel);
-        viewLabel.setBackgroundColor(Color.parseColor(label.getFormattedColor()));
-        return viewLabel;
-    }
-
     public void loadComments(Integer issueNumber) {
         mModel.loadComments(issueNumber, new DetailedIssueModel.LoadFinishedCallback() {
             @Override

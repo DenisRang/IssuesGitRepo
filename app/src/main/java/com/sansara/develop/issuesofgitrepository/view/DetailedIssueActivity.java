@@ -84,7 +84,13 @@ public class DetailedIssueActivity extends AppCompatActivity {
 
     public void showLabels(List<Label> labels) {
         for (Label label : labels) {
-            mContainerLabels.addView(mPresenter.createTextViewLabel(label));
+            TextView viewLabel = new TextView(this);
+            viewLabel.setText(label.getName());
+            viewLabel.setLayoutParams(mTextViewEmptyLabel.getLayoutParams());
+            int paggingLabel = getResources().getDimensionPixelSize(R.dimen.label_pagging);
+            viewLabel.setPadding(paggingLabel, paggingLabel, paggingLabel, paggingLabel);
+            viewLabel.setBackgroundColor(Color.parseColor(label.getFormattedColor()));
+            mContainerLabels.addView(viewLabel);
         }
     }
 
@@ -104,10 +110,6 @@ public class DetailedIssueActivity extends AppCompatActivity {
 
     public void hideEmptyLabel() {
         mTextViewEmptyLabel.setVisibility(View.GONE);
-    }
-
-    public TextView getTextViewEmptyLabel() {
-        return mTextViewEmptyLabel;
     }
 
     public void clearComments() {
