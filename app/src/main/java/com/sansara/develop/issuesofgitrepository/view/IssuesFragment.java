@@ -88,6 +88,7 @@ public class IssuesFragment extends Fragment {
 
         mUnbinder = ButterKnife.bind(this, rootView);
 
+
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
         mIssuesAdapter = new IssuesAdapter(mPresenter.getIssues(), new IssuesAdapter.IssueClickListener() {
