@@ -1,20 +1,16 @@
 package com.sansara.develop.issuesofgitrepository.presenter;
 
-import android.app.LoaderManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Bundle;
-import android.view.View;
+import android.support.annotation.Nullable;
 
-import com.sansara.develop.issuesofgitrepository.R;
 import com.sansara.develop.issuesofgitrepository.data.Issue;
-import com.sansara.develop.issuesofgitrepository.model.IssuesLoader;
+import com.sansara.develop.issuesofgitrepository.interfaces.IssuesContract;
 import com.sansara.develop.issuesofgitrepository.model.IssuesModel;
 import com.sansara.develop.issuesofgitrepository.view.DetailedIssueActivity;
-import com.sansara.develop.issuesofgitrepository.view.IssuesAdapter;
 import com.sansara.develop.issuesofgitrepository.view.IssuesFragment;
 
 import java.util.ArrayList;
@@ -24,72 +20,72 @@ import java.util.List;
  * Created by den on 25.03.2018.
  */
 
-public class IssuesPresenter {
+public class IssuesPresenter implements IssuesContract.Presenter {
     public static final String EXTRA_ISSUE_PARCELABLE = "EXTRA_ISSUE_PARCELABLE";
 
-    private IssuesFragment mView;
-    private IssuesModel mModel;
-    private List<Issue> mIssues;
+    @Nullable
+    private IssuesContract.View view;
+    private IssuesContract.Model model;
 
 
-    public IssuesPresenter(IssuesModel model) {
-        mModel = model;
-        mIssues = new ArrayList<Issue>();
+    public IssuesPresenter(IssuesContract.Model model) {
+        this.model = model;
     }
 
-
-    public void attachView(IssuesFragment issuesFragment) {
-        mView = issuesFragment;
+    @Override
+    public void attachView(IssuesContract.View view) {
+        this.view = view;
     }
 
+    @Override
     public void detachView() {
-        mView = null;
+        view = null;
     }
 
-    public void viewIsReady() {
-        setLoaderReset();
-        loadIssues();
-    }
-
-    public List<Issue> getIssues() {
-        return mIssues;
-    }
-
-    public void onIssueClick(int position) {
-        Intent intent = new Intent(mView.getActivity(), DetailedIssueActivity.class);
-        intent.putExtra(EXTRA_ISSUE_PARCELABLE, mIssues.get(position));
-        mView.startActivity(intent);
-    }
-
+    @Override
     public void loadIssues() {
-        ConnectivityManager cm = (ConnectivityManager) mView.getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+        setLoaderReset();
 
+        ConnectivityManager cm = (ConnectivityManager) ((IssuesFragment) view).getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnected()) {
-            mModel.loadIssues(new IssuesModel.LoadFinishedCallback() {
+            model.loadIssues(new IssuesModel.LoadFinishedCallback() {
                 @Override
                 public void onLoadFinished(Loader<List<Issue>> loader, List<Issue> issues) {
-                    mView.hideProgressBar();
-
-                    mIssues.clear();
-                    if (issues != null && !issues.isEmpty()) mIssues.addAll(issues);
-
-                    mView.showIssues();
-
-                    if (mIssues.isEmpty()) mView.showNoIssues();
+                    view.hideProgressBar();
+                    if (model.isEmpty()) {
+                        view.showNoIssues();
+                    } else {
+                        view.showIssues();
+                    }
                 }
             });
         } else {
-            mView.hideProgressBar();
-            mView.showNoInternetConnection();
+            view.hideProgressBar();
+            view.showNoInternetConnection();
         }
     }
 
-    public void setLoaderReset() {
-        mModel.setIssuesLoaderReset(new IssuesModel.LoaderResetCallback() {
+    @Override
+    public List<Issue> getIssues() {
+        return model.getIssues();
+    }
+
+    @Override
+    public void onIssueClick(int position) {
+        Issue currentIssue = model.getIssues().get(position);
+        if (currentIssue != null) {
+            Intent intent = new Intent(((IssuesFragment) view).getActivity(), DetailedIssueActivity.class);
+            intent.putExtra(EXTRA_ISSUE_PARCELABLE, currentIssue);
+            ((IssuesFragment) view).startActivity(intent);
+        }
+    }
+
+    private void setLoaderReset() {
+        model.setIssuesLoaderReset(new IssuesModel.LoaderResetCallback() {
             @Override
             public void onLoaderReset(Loader<List<Issue>> loader) {
-                mIssues.clear();
+                model.clearIssues();
             }
         });
     }

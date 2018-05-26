@@ -10,8 +10,11 @@ import android.widget.TextView;
 
 import com.sansara.develop.issuesofgitrepository.R;
 import com.sansara.develop.issuesofgitrepository.data.Issue;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

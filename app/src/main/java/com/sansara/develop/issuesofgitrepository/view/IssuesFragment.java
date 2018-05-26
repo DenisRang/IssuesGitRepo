@@ -1,14 +1,8 @@
 package com.sansara.develop.issuesofgitrepository.view;
 
 import android.app.Fragment;
-import android.app.LoaderManager;
-import android.content.Context;
-import android.content.Intent;
-import android.content.Loader;
 
 
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
@@ -21,13 +15,15 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.sansara.develop.issuesofgitrepository.R;
-import com.sansara.develop.issuesofgitrepository.data.Issue;
-import com.sansara.develop.issuesofgitrepository.model.IssuesLoader;
+import com.sansara.develop.issuesofgitrepository.di.components.DaggerIssuesComponent;
+import com.sansara.develop.issuesofgitrepository.di.components.IssuesComponent;
+import com.sansara.develop.issuesofgitrepository.di.modules.IssuesModule;
+import com.sansara.develop.issuesofgitrepository.interfaces.IssuesContract;
+import com.sansara.develop.issuesofgitrepository.model.App;
 import com.sansara.develop.issuesofgitrepository.model.IssuesModel;
 import com.sansara.develop.issuesofgitrepository.presenter.IssuesPresenter;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,19 +33,22 @@ import butterknife.Unbinder;
  * Created by den on 22.03.2018.
  */
 
-public class IssuesFragment extends Fragment {
-    private static final String BUNDLE_RX_QUERY_STATE = "BUNDLE_RX_QUERY_STATE";
+public class IssuesFragment extends Fragment implements IssuesContract.View {
+    private static final String BUNDLE_ISSUE_STATE = "BUNDLE_ISSUE_STATE";
 
     @BindView(R.id.recycler_issues)
-    RecyclerView mRecyclerView;
+    RecyclerView recyclerView;
     @BindView(R.id.text_empty_view)
-    TextView mEmptyView;
+    TextView emptyView;
     @BindView(R.id.progress_bar)
-    ProgressBar mProgressBar;
+    ProgressBar progressBar;
 
-    private Unbinder mUnbinder;
-    private IssuesAdapter mIssuesAdapter;
-    private IssuesPresenter mPresenter;
+    private Unbinder unbinder;
+
+    @Inject
+    IssuesAdapter issuesAdapter;
+    @Inject
+    IssuesContract.Presenter presenter;
 
     public IssuesFragment() {
     }
@@ -58,7 +57,7 @@ public class IssuesFragment extends Fragment {
         IssuesFragment fragment = new IssuesFragment();
 
         Bundle args = new Bundle();
-        args.putString(BUNDLE_RX_QUERY_STATE, rxQueryState);
+        args.putString(BUNDLE_ISSUE_STATE, rxQueryState);
         fragment.setArguments(args);
 
         return fragment;
@@ -68,59 +67,69 @@ public class IssuesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_issues, container, false);
-
-        init(rootView);
+        afterActivityLevelComponent();
+        initViews(rootView);
         return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        presenter.attachView(this);
+        presenter.loadIssues();
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        mUnbinder.unbind();
-        mPresenter.detachView();
+        unbinder.unbind();
+        presenter.detachView();
     }
 
-    private void init(View rootView) {
-        IssuesModel model = new IssuesModel(getActivity(), getRxQueryState());
-        mPresenter = new IssuesPresenter(model);
-        mPresenter.attachView(this);
-        mPresenter.viewIsReady();
+    @Override
+    public void showNoInternetConnection() {
+        emptyView.setText(R.string.msg_no_internet);
+    }
 
-        mUnbinder = ButterKnife.bind(this, rootView);
+    @Override
+    public void showIssues() {
+        recyclerView.getAdapter().notifyDataSetChanged();
+    }
 
+    @Override
+    public void showNoIssues() {
+        emptyView.setText(R.string.msg_no_issues);
+    }
+
+    @Override
+    public void showProgressBar() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgressBar() {
+        progressBar.setVisibility(View.GONE);
+    }
+
+    private void initViews(View rootView) {
+        unbinder = ButterKnife.bind(this, rootView);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        mRecyclerView.setLayoutManager(layoutManager);
-        mIssuesAdapter = new IssuesAdapter(mPresenter.getIssues(), new IssuesAdapter.IssueClickListener() {
-            @Override
-            public void onIssueClick(int position) {
-                mPresenter.onIssueClick(position);
-            }
-        });
-        mRecyclerView.setAdapter(mIssuesAdapter);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(issuesAdapter);
     }
 
-    public void showNoInternetConnection() {
-        mEmptyView.setText(R.string.msg_no_internet);
+    private void afterActivityLevelComponent() {
+        IssuesComponent issuesComponent= DaggerIssuesComponent.builder()
+                .issuesModule(new IssuesModule(getActivity(),getIssueState()))
+                .applicationComponent(((App)getActivity().getApplication()).getComponent())
+                .build();
+
+       issuesComponent.inject(this);
     }
 
-    public void showIssues() {
-        mRecyclerView.getAdapter().notifyDataSetChanged();
+    private String getIssueState() {
+        return getArguments().getString(BUNDLE_ISSUE_STATE);
     }
 
-    public void showNoIssues() {
-        mEmptyView.setText(R.string.msg_no_issues);
-    }
-
-    public void showProgressBar() {
-        mProgressBar.setVisibility(View.VISIBLE);
-    }
-
-    public void hideProgressBar() {
-        mProgressBar.setVisibility(View.GONE);
-    }
-
-    public String getRxQueryState() {
-        return getArguments().getString(BUNDLE_RX_QUERY_STATE);
-    }
 }

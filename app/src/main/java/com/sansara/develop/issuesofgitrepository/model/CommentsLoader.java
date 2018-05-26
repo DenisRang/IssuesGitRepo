@@ -35,7 +35,7 @@ public class CommentsLoader extends AsyncTaskLoader<List<Comment>> {
     public List<Comment> loadInBackground() {
         List<Comment> list = null;
         try {
-            Response<List<Comment>> response = App.getGithabApi().getComments(mNumber).execute();
+            Response<List<Comment>> response = App.getGithubApi().getComments(mNumber).execute();
             list = response.body();
         } catch (IOException e) {
             Toast.makeText(getContext(), getContext().getString(R.string.error_loading_comments), Toast.LENGTH_SHORT).show();
