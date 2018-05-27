@@ -45,8 +45,8 @@ public class IssuesFragment extends Fragment implements IssuesContract.View {
 
     private Unbinder unbinder;
 
-    @Inject
-    IssuesAdapter issuesAdapter;
+    private IssuesAdapter issuesAdapter;
+
     @Inject
     IssuesContract.Presenter presenter;
 
@@ -116,6 +116,12 @@ public class IssuesFragment extends Fragment implements IssuesContract.View {
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
+        issuesAdapter=new IssuesAdapter(presenter.getIssues(), new IssuesAdapter.IssueClickListener() {
+            @Override
+            public void onIssueClick(int position) {
+                presenter.onIssueClick(position);
+            }
+        });
         recyclerView.setAdapter(issuesAdapter);
     }
 

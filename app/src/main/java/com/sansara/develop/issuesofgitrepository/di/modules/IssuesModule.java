@@ -30,22 +30,8 @@ public class IssuesModule {
 
     @Provides
     IssuesContract.Model model() {
-        return new IssuesModel(state);
+        return new IssuesModel(context, state);
     }
 
-    @Named("fr")
-    @Provides
-    public Context context() {
-        return context;
-    }
 
-    @Provides
-    IssuesAdapter issuesAdapter(final IssuesContract.Presenter presenter) {
-        return new IssuesAdapter(presenter.getIssues(), new IssuesAdapter.IssueClickListener() {
-            @Override
-            public void onIssueClick(int position) {
-                presenter.onIssueClick(position);
-            }
-        });
-    }
 }

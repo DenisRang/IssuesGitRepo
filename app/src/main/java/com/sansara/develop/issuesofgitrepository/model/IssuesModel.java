@@ -30,16 +30,14 @@ public class IssuesModel implements IssuesContract.Model, LoaderManager.LoaderCa
     private static final int CLOSED_ISSUES_LOADER_ID = 2;
 
     private String state;
-
-    @Inject
-    @Named("fr")
     Context context;
 
     private LoadFinishedCallback loadFinishedCallback;
     private LoaderResetCallback loaderResetCallback;
     private List<Issue> issues;
 
-    public IssuesModel(String state) {
+    public IssuesModel(Context context, String state) {
+        this.context = context;
         this.state = state;
         issues = new ArrayList<Issue>();
     }
@@ -60,14 +58,14 @@ public class IssuesModel implements IssuesContract.Model, LoaderManager.LoaderCa
         this.issues.clear();
         this.issues.addAll(issues);
         if (loadFinishedCallback != null) {
-            loadFinishedCallback.onLoadFinished(loader, issues);
+            loadFinishedCallback.onLoadFinished();
         }
     }
 
     @Override
     public void onLoaderReset(Loader<List<Issue>> loader) {
         if (loaderResetCallback != null) {
-            loaderResetCallback.onLoaderReset(loader);
+            loaderResetCallback.onLoaderReset();
         }
     }
 
@@ -101,10 +99,10 @@ public class IssuesModel implements IssuesContract.Model, LoaderManager.LoaderCa
     }
 
     public interface LoadFinishedCallback {
-        void onLoadFinished(Loader<List<Issue>> loader, List<Issue> issues);
+        void onLoadFinished();
     }
 
     public interface LoaderResetCallback {
-        void onLoaderReset(Loader<List<Issue>> loader);
+        void onLoaderReset();
     }
 }

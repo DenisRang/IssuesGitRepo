@@ -51,7 +51,7 @@ public class IssuesPresenter implements IssuesContract.Presenter {
         if (networkInfo != null && networkInfo.isConnected()) {
             model.loadIssues(new IssuesModel.LoadFinishedCallback() {
                 @Override
-                public void onLoadFinished(Loader<List<Issue>> loader, List<Issue> issues) {
+                public void onLoadFinished() {
                     view.hideProgressBar();
                     if (model.isEmpty()) {
                         view.showNoIssues();
@@ -84,7 +84,7 @@ public class IssuesPresenter implements IssuesContract.Presenter {
     private void setLoaderReset() {
         model.setIssuesLoaderReset(new IssuesModel.LoaderResetCallback() {
             @Override
-            public void onLoaderReset(Loader<List<Issue>> loader) {
+            public void onLoaderReset() {
                 model.clearIssues();
             }
         });

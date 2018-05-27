@@ -1,7 +1,5 @@
 package com.sansara.develop.issuesofgitrepository.view;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,11 +8,8 @@ import android.widget.TextView;
 
 import com.sansara.develop.issuesofgitrepository.R;
 import com.sansara.develop.issuesofgitrepository.data.Issue;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
-
-import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,12 +20,12 @@ import butterknife.ButterKnife;
 
 public class IssuesAdapter extends RecyclerView.Adapter<IssuesAdapter.ViewHolder> {
 
-    private List<Issue> mIssues;
-    private IssueClickListener mIssueClickListener;
+    private List<Issue> issues;
+    private IssueClickListener issueClickListener;
 
     public IssuesAdapter(List<Issue> issues, IssueClickListener issueClickListener) {
-        mIssues = issues;
-        mIssueClickListener = issueClickListener;
+        this.issues = issues;
+        this.issueClickListener = issueClickListener;
     }
 
     @Override
@@ -41,7 +36,7 @@ public class IssuesAdapter extends RecyclerView.Adapter<IssuesAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Issue issue = mIssues.get(position);
+        Issue issue = issues.get(position);
 
         holder.textViewTitle.setText(issue.getTitle());
         holder.textViewCreatedAt.setText(issue.getFormattedDateCreatedAt());
@@ -50,9 +45,9 @@ public class IssuesAdapter extends RecyclerView.Adapter<IssuesAdapter.ViewHolder
 
     @Override
     public int getItemCount() {
-        if (mIssues == null)
+        if (issues == null)
             return 0;
-        return mIssues.size();
+        return issues.size();
     }
 
 
@@ -76,7 +71,7 @@ public class IssuesAdapter extends RecyclerView.Adapter<IssuesAdapter.ViewHolder
         public void onClick(View v) {
             int position = getAdapterPosition();
             if (position != RecyclerView.NO_POSITION) {
-                mIssueClickListener.onIssueClick(position);
+                issueClickListener.onIssueClick(position);
             }
         }
     }
